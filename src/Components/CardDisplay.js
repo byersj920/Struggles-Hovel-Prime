@@ -9,7 +9,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-/* import cardList from './card-list.json'; */
 import TextField from '@mui/material/TextField';
 
 const CardDisplay = () => {
