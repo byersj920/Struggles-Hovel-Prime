@@ -9,12 +9,13 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const CardDisplay = () => {
   const [cardData, setCardData] = useState(null);
   const [discordName, setDiscordName] = useState('');
-  const [specificCardName, setSpecificCardName] = useState('');
+  const [collectedFilter, setCollectedFilter] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,6 +47,8 @@ const CardDisplay = () => {
     "TheDragonsFang (Iris)",
     "Trax (Mateo)",
     "MrMaps (Corey)",
+    "Freakbro5 (Christan)",
+    "JustUnbearable (Nick)",
     "DLung7 (David)",
     "Dwarf (Jon)",
     "Strexco (EJ)",
@@ -126,6 +129,11 @@ const CardDisplay = () => {
   }; */
 
   const totalCardsNeeded = cardData.reduce((total, card) => total + card.numberNeeded, 0);
+  const filteredCardData = collectedFilter
+  ? cardData.filter(card => card.numberNeeded > 0)
+  : cardData;
+
+  const toggleCollectedCardFilter = () => {setCollectedFilter(!collectedFilter);}
 
   return (
     <div>
@@ -146,19 +154,17 @@ const CardDisplay = () => {
             ))}
           </Select>
         </FormControl>
-      </Box>
-      <Box sx={{ m: 2 }}>
-        <TextField
-          id="specific-card-name"
-          label="Specific Card Name"
-          variant="outlined"
-          fullWidth
-          value={specificCardName}
-          onChange={(e) => setSpecificCardName(e.target.value)}
+        <FormControlLabel
+          control={<Checkbox
+                    checked={collectedFilter}
+                    onChange={toggleCollectedCardFilter}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    />}
+          label="Show Only Cards Still Needed"
         />
       </Box>
       <div className="card-container">
-        {cardData.map(card => {
+        {filteredCardData.map(card => {
           const decodedUsernames = card.usernames.map(username => decodeURIComponent(username));
           const decodedDiscordName = decodeURIComponent(discordName);
 
