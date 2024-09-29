@@ -20,7 +20,7 @@ const CardDisplay = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/cards');
+        const response = await axios.get('http://cwischmeyer.synology.me:9696/api/cards');
         setCardData(response.data);
       } catch (error) {
         console.error('Error fetching card data:', error);
@@ -68,13 +68,13 @@ const CardDisplay = () => {
     }
 
     try {
-      await axios.post('http://localhost:8080/api/cards/add', null, {
+      await axios.post('http://cwischmeyer.synology.me:9696/api/cards/add', null, {
         params: {
           cardId: encodeURIComponent(cardId),
           username: encodeURIComponent(discordName)
         }
       });
-      const response = await axios.get('http://localhost:8080/api/cards');
+      const response = await axios.get('http://cwischmeyer.synology.me:9696/api/cards');
       setCardData(response.data);
     } catch (error) {
       console.error('Error adding card:', error);
@@ -88,13 +88,13 @@ const CardDisplay = () => {
     }
 
     try {
-      await axios.post('http://localhost:8080/api/cards/remove', null, {
+      await axios.post('http://cwischmeyer.synology.me:9696/api/cards/remove', null, {
         params: {
           cardId: encodeURIComponent(cardId),
           username: encodeURIComponent(discordName)
         }
       });
-      const response = await axios.get('http://localhost:8080/api/cards');
+      const response = await axios.get('http://cwischmeyer.synology.me:9696/api/cards');
       setCardData(response.data);
     } catch (error) {
       console.error('Error removing card:', error);
