@@ -20,7 +20,7 @@ const CardDisplay = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://struggleshovel.cwischmeyer.synology.me/api/cards');
+        const response = await axios.get('https://hovel-backend-648542156002.us-central1.run.app/api/cards');
         setCardData(response.data);
       } catch (error) {
         console.error('Error fetching card data:', error);
@@ -68,13 +68,13 @@ const CardDisplay = () => {
     }
 
     try {
-      await axios.post('https://struggleshovel.cwischmeyer.synology.me/api/cards/add', null, {
+      await axios.post('https://hovel-backend-648542156002.us-central1.run.app/api/cards/add', null, {
         params: {
           cardId: encodeURIComponent(cardId),
           username: encodeURIComponent(discordName)
         }
       });
-      const response = await axios.get('https://struggleshovel.cwischmeyer.synology.me/api/cards');
+      const response = await axios.get('https://hovel-backend-648542156002.us-central1.run.app/api/cards');
       setCardData(response.data);
     } catch (error) {
       console.error('Error adding card:', error);
@@ -88,13 +88,13 @@ const CardDisplay = () => {
     }
 
     try {
-      await axios.post('https://struggleshovel.cwischmeyer.synology.me/cards/remove', null, {
+      await axios.post('https://hovel-backend-648542156002.us-central1.run.app/api/cards/remove', null, {
         params: {
           cardId: encodeURIComponent(cardId),
           username: encodeURIComponent(discordName)
         }
       });
-      const response = await axios.get('https://struggleshovel.cwischmeyer.synology.me/api/cards');
+      const response = await axios.get('https://hovel-backend-648542156002.us-central1.run.app/api/cards');
       setCardData(response.data);
     } catch (error) {
       console.error('Error removing card:', error);
