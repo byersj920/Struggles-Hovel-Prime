@@ -101,33 +101,6 @@ const CardDisplay = () => {
     }
   };
 
- /*  const addSpecificCards = async () => {
-    const specificCard = cardList.find(card => card.name === specificCardName);
-    if (!specificCard) {
-      alert("Card not found in the JSON file.");
-      return;
-    }
-
-    const cardDetails = {
-      name: specificCard.name,
-      rarity: specificCard.rarity,
-      cardNumber: specificCard.collector_number,
-      colors: specificCard.colors,
-      manaValue: specificCard.cmc,
-      imageUri: specificCard.image_uris.normal,
-      setCode: specificCard.set,
-      usernames: [],
-    };
-
-    try {
-      await axios.post('http://localhost:8080/api/cards', cardDetails);
-      const response = await axios.get('http://localhost:8080/api/cards');
-      setCardData(response.data);
-    } catch (error) {
-      console.error('Error adding card:', error);
-    }
-  }; */
-
   const totalCardsNeeded = cardData.reduce((total, card) => total + card.numberNeeded, 0);
   const filteredCardData = collectedFilter
   ? cardData.filter(card => card.numberNeeded > 0)
