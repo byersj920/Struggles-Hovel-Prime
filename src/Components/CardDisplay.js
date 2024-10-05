@@ -16,6 +16,7 @@ const CardDisplay = () => {
   const [cardData, setCardData] = useState(null);
   const [discordName, setDiscordName] = useState('');
   const [collectedFilter, setCollectedFilter] = useState(false);
+  const [cardsToBeAdded, setCardsToBeAdded] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +37,7 @@ const CardDisplay = () => {
 
   cardData.sort((a, b) => a.name.localeCompare(b.name));
 
-  const handleChange = (event) => { setDiscordName(event.target.value); };
+  const discordNameSetter = (event) => { setDiscordName(event.target.value); };
 
   const discordNamesArray = [
     "Captainspazam (Struggles)",
@@ -61,25 +62,71 @@ const CardDisplay = () => {
   ];
   discordNamesArray.sort((a, b) => a.localeCompare(b));
 
-  const addCard = async (cardId) => {
-    if (!discordName) {
-      alert("Please select a Discord name before adding a card.");
-      return;
+
+const addCard = (cardId) =>{
+
+  if (!discordName) {
+    alert("Please select a Discord name before adding a card.");
+    return;}
+ 
+  const updatedCardData = cardData.map(card => {
+      
+    if (card.id === cardId && card.numberNeeded > 0) {
+      cardsToBeAdded.push(cardId);
+      return { ...card, numberNeeded: card.numberNeeded - 1 };
+    }
+    return card;
+  });
+
+  setCardData(updatedCardData);
+}
+
+const uploadToCube = async (cardsToBeAdded) => {
+
+  if (cardsToBeAdded.length === 0) {
+    window.alert("You don't have any cards to upload! Click 'Add Card' buttons to get a list of cards going.");
+    return;
+  }
+
+  const userConfirmed = window.confirm(`You are uploading this many cards to the cube: ${cardsToBeAdded.length}\nIs that okay?`);
+  
+  if (userConfirmed) {
+
+    let compactUploadList = [];
+
+    for (let i = 0; i < cardsToBeAdded.length; i++) {
+      const cardIndex = compactUploadList.findIndex(item => item.cardId === cardsToBeAdded[i]);
+
+      if (cardIndex !== -1) {
+        compactUploadList[cardIndex].count++;
+      } 
+      else {
+        compactUploadList.push({ cardId: cardsToBeAdded[i], count: 1 });
+      }
     }
 
+
     try {
-      await axios.post('https://hovel-backend-648542156002.us-central1.run.app/api/cards/add', null, {
-        params: {
-          cardId: encodeURIComponent(cardId),
-          username: encodeURIComponent(discordName)
-        }
+      const response = await axios.post('https://hovel-backend-648542156002.us-central1.run.app/api/cards/uploadCards', {
+        cardList: compactUploadList.map(item => ({ cardId: item.cardId, count: item.count })),
+        username: encodeURIComponent(discordName)
       });
-      const response = await axios.get('https://hovel-backend-648542156002.us-central1.run.app/api/cards');
-      setCardData(response.data);
+      
+
+      const uploadedCount = response.data;
+
+      alert(`Upload successful! You uploaded ${uploadedCount} card(s)!`);
+      setCardsToBeAdded([]); 
+
     } catch (error) {
       console.error('Error adding card:', error);
+      alert('There was an error uploading your cards. Please try again.');
     }
-  };
+  } else {
+    alert('Upload canceled.');
+  }
+};
+
 
   const removeCard = async (cardId) => {
     if (!discordName) {
@@ -87,18 +134,17 @@ const CardDisplay = () => {
       return;
     }
 
-    try {
-      await axios.post('https://hovel-backend-648542156002.us-central1.run.app/api/cards/remove', null, {
-        params: {
-          cardId: encodeURIComponent(cardId),
-          username: encodeURIComponent(discordName)
-        }
-      });
-      const response = await axios.get('https://hovel-backend-648542156002.us-central1.run.app/api/cards');
-      setCardData(response.data);
-    } catch (error) {
-      console.error('Error removing card:', error);
-    }
+    const updatedCardData = cardData.map(card => {
+      
+      if (card.id === cardId && cardsToBeAdded.includes(cardId)) {
+        cardsToBeAdded.splice(cardsToBeAdded.indexOf(cardId),1);
+        return { ...card, numberNeeded: card.numberNeeded+1 };
+      }
+      return card;
+    });
+
+    setCardData(updatedCardData);
+
   };
 
   const totalCardsNeeded = cardData.reduce((total, card) => total + card.numberNeeded, 0);
@@ -120,7 +166,7 @@ const CardDisplay = () => {
             id="discord-name-select"
             value={discordName}
             label="Discord Name"
-            onChange={handleChange}
+            onChange={discordNameSetter}
           >
             {discordNamesArray.map((name, index) => (
               <MenuItem key={index} value={name}>{name}</MenuItem>
@@ -135,13 +181,12 @@ const CardDisplay = () => {
                     />}
           label="Show Only Cards Still Needed"
         />
+        <Button variant="contained" size="large" className="card-button" onClick={() => uploadToCube(cardsToBeAdded)}>Upload All Selected Cards to the Cube</Button>
       </Box>
       <div className="card-container">
         {filteredCardData.map(card => {
-          const decodedUsernames = card.usernames.map(username => decodeURIComponent(username));
-          const decodedDiscordName = decodeURIComponent(discordName);
 
-          const canRemove = decodedUsernames.includes(decodedDiscordName);
+          const canRemove = cardsToBeAdded.includes(card.id);
           const cardBackgroundColor = card.numberNeeded === 0 ? '#b0eaa0' : 'white';
 
           return (
@@ -162,7 +207,7 @@ const CardDisplay = () => {
                 >
                   <Button variant="contained" size="small" className="card-button" onClick={() => addCard(card.id)}>Add Card</Button>
                   {canRemove && (
-                    <Button variant="outlined" size="small" className="card-button" onClick={() => removeCard(card.id)}>Remove Card</Button>
+                    <Button variant="outlined" size="small" className="card-button" onClick={() => removeCard(card.id)}>Undo Add</Button>
                   )}
                 </Stack>
               </Stack>
