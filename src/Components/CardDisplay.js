@@ -31,10 +31,9 @@ const CardDisplay = () => {
     fetchData();
   }, []);
 
-  if (!cardData) {
-    return <div>Building the best cube ever...one second please!</div>;
-  }
-
+  //This is the loading page until card data is retrieved.
+  if (!cardData) {return <div>Building the best cube ever...one second please!</div>;}
+  //Sorts the card data alphabetically.
   cardData.sort((a, b) => a.name.localeCompare(b.name));
 
   const discordNameSetter = (event) => { setDiscordName(event.target.value); };
@@ -181,7 +180,12 @@ const uploadToCube = async (cardsToBeAdded) => {
                     />}
           label="Show Only Cards Still Needed"
         />
-        <Button variant="contained" size="large" className="card-button" onClick={() => uploadToCube(cardsToBeAdded)}>Upload All Selected Cards to the Cube</Button>
+        <Button 
+        variant="contained" 
+        size="large" 
+        className="card-button" 
+        onClick={() => uploadToCube(cardsToBeAdded)}>
+          Upload All Selected Cards to the Cube</Button>
       </Box>
       <div className="card-container">
         {filteredCardData.map(card => {
@@ -206,9 +210,12 @@ const uploadToCube = async (cardsToBeAdded) => {
                   className="button-stack"
                 >
                   {canRemove && (
-                    <Button variant="outlined" size="small" className="card-button" onClick={() => removeCard(card.id)}>Remove -</Button>
-                  )}
-                  <Button variant="contained" size="small" className="card-button" onClick={() => addCard(card.id)}>Add +</Button>
+                    <Button 
+                    variant="outlined" size="small" className="card-button" onClick={() => removeCard(card.id)}>
+                      Remove -</Button>)}
+                  <Button 
+                  variant="contained" size="small" className="card-button" onClick={() => addCard(card.id)}>
+                    Add +</Button>
                 </Stack>
               </Stack>
             </div>
