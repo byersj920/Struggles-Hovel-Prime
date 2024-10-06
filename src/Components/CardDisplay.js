@@ -205,10 +205,10 @@ const uploadToCube = async (cardsToBeAdded) => {
                   spacing={2}
                   className="button-stack"
                 >
-                  <Button variant="contained" size="small" className="card-button" onClick={() => addCard(card.id)}>Add Card</Button>
                   {canRemove && (
-                    <Button variant="outlined" size="small" className="card-button" onClick={() => removeCard(card.id)}>Undo Add</Button>
+                    <Button variant="outlined" size="small" className="card-button" onClick={() => removeCard(card.id)}>Remove -</Button>
                   )}
+                  <Button variant="contained" size="small" className="card-button" onClick={() => addCard(card.id)}>Add +</Button>
                 </Stack>
               </Stack>
             </div>
