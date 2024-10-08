@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-const CardDisplay = () => {
+const BloomburrowCube = () => {
   const [cardData, setCardData] = useState(null);
   const [discordName, setDiscordName] = useState('');
   const [collectedFilter, setCollectedFilter] = useState(false);
@@ -22,7 +22,7 @@ const CardDisplay = () => {
     const fetchData = async () => {
         try {
             const response = await axios.get('https://hovel-backend-648542156002.us-central1.run.app/api/cards');
-            const filteredCards = response.data.filter(card => card.setCode === "otj" || card.setCode === "otp" || card.setCode === "big");
+            const filteredCards = response.data.filter(card => card.setCode === "blb");
             setCardData(filteredCards);
         } catch (error) {
             console.error('Error fetching card data:', error);
@@ -226,4 +226,4 @@ const uploadToCube = async (cardsToBeAdded) => {
   );
 };
 
-export default CardDisplay;
+export default BloomburrowCube;
