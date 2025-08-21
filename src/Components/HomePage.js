@@ -9,6 +9,7 @@ const HomePage = () =>{
     const introText = "Welcome to Struggle's Hovel! Click on the cube you'd like to see.";
     const loadOutlawsCube = () => {navigate('/outlaws');}
     const loadBloomburrowCube = () => {navigate('/bloomburrow')}
+    const loadTarkirDragonstormCube = () => {navigate('/tarkirDragonstorm')}
 
     return (
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
@@ -17,6 +18,8 @@ const HomePage = () =>{
             <Button variant="contained" onClick={loadOutlawsCube}>Outlaws of Thunder Junction</Button>
             <p></p>
             <Button variant="contained" onClick={loadBloomburrowCube}>Bloomburrow</Button>
+            <p></p>
+            <Button variant="contained" onClick={loadTarkirDragonstormCube}>Tarkir Dragonstorm</Button>
         </div>
     )
 }
