@@ -11,28 +11,31 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { useNavigate } from 'react-router-dom';
 
-const TarkirDragonstormCube = () => {
+const CardDisplay = ({setCode}) => {
   const [cardData, setCardData] = useState(null);
   const [discordName, setDiscordName] = useState('');
   const [collectedFilter, setCollectedFilter] = useState(false);
   const [cardsToBeAdded, setCardsToBeAdded] = useState([]);
+  const navigate = useNavigate();
+  const homeButton = () => {navigate('/');}
 
   useEffect(() => {
     const fetchData = async () => {
         try {
             const response = await axios.get('https://hovel-backend-648542156002.us-central1.run.app/api/cards');
-            const filteredCards = response.data.filter(card => card.setCode === "tdm");
+            const filteredCards = response.data.filter(card => card.setCode === setCode);
             setCardData(filteredCards);
         } catch (error) {
             console.error('Error fetching card data:', error);
         }
     };
     fetchData();
-}, []);
+}, [setCode]);
 
   //This is the loading page until card data is retrieved.
-  if (!cardData) {return <div>Building the best cube ever...one second please!</div>;}
+  if (!cardData) {return <div><Button variant="contained" onClick={homeButton}>Back to Home</Button> <p>Loading cube...this can take up to 1 minute...</p></div>;}
   //Sorts the card data alphabetically.
   cardData.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -155,6 +158,7 @@ const uploadToCube = async (cardsToBeAdded) => {
 
   return (
     <div>
+      <Button variant="contained" onClick={homeButton}>Back to Home</Button>
       <TextDisplay />
       <h2>Total Cards Needed: {totalCardsNeeded}</h2>
       <Box sx={{ minWidth: 800 }}>
@@ -226,4 +230,4 @@ const uploadToCube = async (cardsToBeAdded) => {
   );
 };
 
-export default TarkirDragonstormCube;
+export default CardDisplay;

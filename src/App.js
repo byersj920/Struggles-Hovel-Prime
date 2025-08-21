@@ -2,9 +2,8 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import OutlawsCube from './Components/OutlawsCube';
-import BloomburrowCube from './Components/BloomburrowCube';
 import HomePage from './Components/HomePage';
-import TarkirDragonstormCube from './Components/TarkirDragonStormCube';
+import CardDisplay from './Components/CardDisplay';
 
 function App() {
   return (
@@ -13,8 +12,8 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} /> {/* Home Page */}
           <Route path="/outlaws" element={<OutlawsCube />} />
-          <Route path="/bloomburrow" element={<BloomburrowCube />} />
-          <Route path='/tarkirdragonstorm' element={<TarkirDragonstormCube />} />
+          <Route path="/bloomburrow" element={<CardDisplay setCode="blb"/>} />
+          <Route path='/tarkirDragonstorm' element={<CardDisplay setCode="tdm" />} />
         </Routes>
       </div>
     </Router>
