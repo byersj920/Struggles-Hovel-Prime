@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CardDisplay from './Components/CardDisplay';
+import OutlawsCube from './Components/OutlawsCube';
 import BloomburrowCube from './Components/BloomburrowCube';
 import HomePage from './Components/HomePage';
-import TarkirDragonStromCube from './Components/TarkirDragonStormCube';
+import TarkirDragonstormCube from './Components/TarkirDragonStormCube';
 
 function App() {
   return (
@@ -12,9 +12,9 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<HomePage />} /> {/* Home Page */}
-          <Route path="/outlaws" element={<CardDisplay />} />
+          <Route path="/outlaws" element={<OutlawsCube />} />
           <Route path="/bloomburrow" element={<BloomburrowCube />} />
-          <Route path='/tarkirdragonstorm' element={<TarkirDragonStromCube />} />
+          <Route path='/tarkirdragonstorm' element={<TarkirDragonstormCube />} />
         </Routes>
       </div>
     </Router>

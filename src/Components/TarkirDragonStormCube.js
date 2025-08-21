@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-const TarkirDragonStromCube = () => {
+const TarkirDragonstormCube = () => {
   const [cardData, setCardData] = useState(null);
   const [discordName, setDiscordName] = useState('');
   const [collectedFilter, setCollectedFilter] = useState(false);
@@ -226,4 +226,4 @@ const uploadToCube = async (cardsToBeAdded) => {
   );
 };
 
-export default TarkirDragonStromCube;
+export default TarkirDragonstormCube;
