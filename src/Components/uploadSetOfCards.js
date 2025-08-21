@@ -1,7 +1,7 @@
 const fs = require('fs');
 const axios = require('axios');
 
-const cardsData = JSON.parse(fs.readFileSync('./bloomburrowCardList.json', 'utf-8'));
+const cardsData = JSON.parse(fs.readFileSync('./tdmCardList.json', 'utf-8'));
 
 let cardCounter = 0;
 let setOfCards = [];
@@ -11,11 +11,11 @@ function createCardObjectsFromJSON(cards) {
         const formattedCard = {
             name: card.name,
             rarity: card.rarity,
-            cardNumber: card.collector_number,
+            cardNumber: parseInt(card.collector_number, 10),
             colors: card.colors,
             manaValue: card.cmc,
             imageUri: card.image_uris.normal,
-            setCode: "blb"
+            setCode: "tdm"
         };
 
         setOfCards.push(formattedCard);
